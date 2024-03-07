@@ -1,12 +1,14 @@
-name: Deploy Preview
+name: Deploy Preview Environment
 
-on: [pull_request]
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - '*'
 
 env:
-  NEON_DATABASE_USERNAME: ${{ secrets.NEON_DATABASE_USERNAME }} # change this to your database username
-  GH_TOKEN: ${{ secrets.GH_TOKEN }} # Required for commenting on pull requests for private repos
-  NEON_API_KEY: ${{ secrets.NEON_API_KEY }} # You can generate a an API key in your account settings
-  NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }} # You can find this in your project settings
+  NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+  NEON_PROJECT_ID: ${{ secrets.NEON_PROJECT_ID }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
 jobs:
@@ -15,6 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
 
       - name: Create Neon Branch
         id: create-neon-branch
@@ -25,20 +32,8 @@ jobs:
           branch_name: preview/pr-${{ github.event.number }}
           parent: anonymized-main
 
-
-      - name: Run Migrations
-        run: |
-            touch .env
-  
-            echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
-            echo DIRECT_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require >> .env
-
-            npx prisma generate
-            npx prisma migrate deploy
-
-
       - name: Install Vercel CLI
-        run: npm install --global vercel@latest
+        run: npm install --global vercel@33
 
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ env.VERCEL_TOKEN }}
@@ -53,7 +48,7 @@ jobs:
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
         with:
-          # GITHUB_TOKEN: ${{ env.GH_TOKEN }}
           message: |
             Vercel Preview URL :rocket: : ${{ steps.deploy.outputs.preview_url }}
-            Neon branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
+            Neon Branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
+          comment_tag: preview-url
