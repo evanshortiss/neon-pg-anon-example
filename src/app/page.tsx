@@ -46,7 +46,7 @@ export default async function Home({
 
   return (
     <main className="flex min-h-screen flex-col items-center px-24 py-12">
-      <h1 className="text-xl dark:text-[#00e599]">Neon and PostgreSQL Anonymizer Demo</h1>
+      <h1 className="text-xl dark:text-red-500">Neon and PostgreSQL Anonymizer Demo</h1>
       <div className="divide-y w-full divide-solid divide-gray-500 mt-3 mb-5 w-1/2">
         <div></div>
         <div></div>
