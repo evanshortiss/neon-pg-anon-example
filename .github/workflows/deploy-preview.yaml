@@ -23,6 +23,10 @@ jobs:
           node-version: 18
           cache: 'npm'
 
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v8
+
       - name: Create Neon Branch
         id: create-neon-branch
         uses: neondatabase/create-branch-action@v4
@@ -31,6 +35,13 @@ jobs:
           api_key: ${{ env.NEON_API_KEY }}
           branch_name: preview/pr-${{ github.event.number }}
           parent: anonymized-main
+
+      - name: Prepare .env file
+        run: |
+          touch .env
+
+          echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
+          echo DIRECT_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require >> .env
 
       - name: Install Vercel CLI
         run: npm install --global vercel@33
@@ -44,6 +55,9 @@ jobs:
       - name: Deploy Preview to Vercel
         id: deploy
         run: echo preview_url=$(vercel deploy --prebuilt --token=${{ env.VERCEL_TOKEN }}) >> $GITHUB_OUTPUT
+
+      - name: Set DATABASE_URL on Vercel Preview Deployment
+        run: vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }}
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
