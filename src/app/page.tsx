@@ -52,6 +52,9 @@ export default async function Home ({
         <Link className="dark:text-[#00e599]" href={`/?page=${page + 1}`}>Next &#8594;</Link>
        </div>
        <EmployeeTable employees={employees}></EmployeeTable>
+       <div className="fixed left-0 top-0 p-3">
+          <p className="dark:text-white">Environment: {process.env.VERCEL_ENV ? process.env.VERCEL_ENV : 'local'}</p>
+       </div>
     </main>
   )
 }
