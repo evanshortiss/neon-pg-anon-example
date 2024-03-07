@@ -13,7 +13,7 @@ const sql = neon(process.env.DATABASE_URL, {
   fullResults: true
 })
  
-export const getData = (async (page: number, limit = 15) => {
+const getData = (async (page: number, limit = 15) => {
   if (page < 1) page = 1
 
   const result = await sql`
