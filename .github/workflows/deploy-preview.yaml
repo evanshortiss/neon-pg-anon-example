@@ -40,8 +40,8 @@ jobs:
         run: |
           touch .env
 
-          echo DATABASE_URL=${{ steps.create-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
-          echo DIRECT_URL=${{ steps.create-branch.outputs.db_url }}?sslmode=require >> .env
+          echo DATABASE_URL=${{ steps.create-neon-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
+          echo DIRECT_URL=${{ steps.create-neon-branch.outputs.db_url }}?sslmode=require >> .env
 
       - name: Install Vercel CLI
         run: npm install --global vercel@33
@@ -64,5 +64,5 @@ jobs:
         with:
           message: |
             Vercel Preview URL :rocket: : ${{ steps.deploy.outputs.preview_url }}
-            Neon Branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-branch.outputs.branch_id }}
+            Neon Branch :elephant: : https://console.neon.tech/app/projects/${{ env.NEON_PROJECT_ID }}/branches/${{ steps.create-neon-branch.outputs.branch_id }}
           comment_tag: preview-url
