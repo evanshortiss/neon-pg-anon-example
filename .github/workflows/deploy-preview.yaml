@@ -57,7 +57,7 @@ jobs:
         run: echo preview_url=$(vercel deploy --prebuilt --token=${{ env.VERCEL_TOKEN }}) >> $GITHUB_OUTPUT
 
       - name: Set DATABASE_URL on Vercel Preview Deployment
-        run: vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }})
+        run: vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }}
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
