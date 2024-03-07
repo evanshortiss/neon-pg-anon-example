@@ -56,6 +56,9 @@ jobs:
         id: deploy
         run: echo preview_url=$(vercel deploy --prebuilt --token=${{ env.VERCEL_TOKEN }}) >> $GITHUB_OUTPUT
 
+      - name: Remove existing DATABASE_URL on Vercel Preview Deployment
+        run: vercel env rm DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }} --yes
+
       - name: Set DATABASE_URL on Vercel Preview Deployment
         run: echo "${{ steps.create-neon-branch.outputs.db_url_with_pooler }}?sslmode=require" | vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }}
 
