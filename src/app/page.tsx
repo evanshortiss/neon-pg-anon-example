@@ -47,9 +47,9 @@ export default async function Home ({
   return (
     <main className="flex min-h-screen flex-col items-center px-24 py-12">
        <div className="flex space-x-8 mb-6">
-        <Link aria-disabled={prevDisabled} className={`underline dark:text-[#00e599] ${prevDisabled ? 'pointer-events-none dark:text-gray-500 text-gray-400' : ''}`} href={`/?page=${page - 1}`}>&#8592; Previous</Link>
+        <Link aria-disabled={prevDisabled} className={`dark:text-[#00e599] ${prevDisabled ? 'pointer-events-none dark:text-gray-500 text-gray-400' : ''}`} href={`/?page=${page - 1}`}>&#8592; Previous</Link>
         <div className="dark:text-gray-500 font-bold">|</div>
-        <Link className="underline dark:text-[#00e599]" href={`/?page=${page + 1}`}>Next &#8594;</Link>
+        <Link className="dark:text-[#00e599]" href={`/?page=${page + 1}`}>Next &#8594;</Link>
        </div>
        <EmployeeTable employees={employees}></EmployeeTable>
     </main>
