@@ -33,6 +33,7 @@ jobs:
         with:
           project_id: ${{ env.NEON_PROJECT_ID }}
           api_key: ${{ env.NEON_API_KEY }}
+          database: employees
           branch_name: preview/pr-${{ github.event.number }}
           parent: anonymized-main
 
