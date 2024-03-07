@@ -12,7 +12,7 @@ const sql = neon(process.env.DATABASE_URL, {
   arrayMode: false,
   fullResults: true
 })
- 
+
 const getData = (async (page: number, limit = 15) => {
   if (page < 1) page = 1
 
@@ -24,11 +24,11 @@ const getData = (async (page: number, limit = 15) => {
     OFFSET ${page === 1 ? 0 : page * limit}
     LIMIT ${limit};
   `;
-  
+
   return result.rows as Employee[]
 })
 
-export default async function Home ({
+export default async function Home({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -46,15 +46,20 @@ export default async function Home ({
 
   return (
     <main className="flex min-h-screen flex-col items-center px-24 py-12">
-       <div className="flex space-x-8 mb-6">
+      <h1 className="text-xl dark:text-[#00e599]">Neon and PostgreSQL Anonymizer Demo</h1>
+      <div className="divide-y w-full divide-solid divide-gray-500 mt-3 mb-5 w-1/2">
+        <div></div>
+        <div></div>
+      </div>
+      <div className="flex space-x-8 mb-6">
         <Link aria-disabled={prevDisabled} className={`dark:text-[#00e599] ${prevDisabled ? 'pointer-events-none dark:text-gray-500 text-gray-400' : ''}`} href={`/?page=${page - 1}`}>&#8592; Previous</Link>
         <div className="dark:text-gray-500 font-bold">|</div>
         <Link className="dark:text-[#00e599]" href={`/?page=${page + 1}`}>Next &#8594;</Link>
-       </div>
-       <EmployeeTable employees={employees}></EmployeeTable>
-       <div className="fixed left-0 top-0 p-3">
-          <p className="dark:text-white">Environment: {process.env.VERCEL_ENV ? process.env.VERCEL_ENV : 'local'}</p>
-       </div>
+      </div>
+      <EmployeeTable employees={employees}></EmployeeTable>
+      <div className="fixed left-0 top-0 p-3 text-xs">
+        <pre className="dark:text-gray-500">Environment: {process.env.VERCEL_ENV ? process.env.VERCEL_ENV : 'local'}</pre>
+      </div>
     </main>
   )
 }
