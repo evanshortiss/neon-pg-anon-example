@@ -36,12 +36,11 @@ jobs:
           branch_name: preview/pr-${{ github.event.number }}
           parent: anonymized-main
 
-      - name: Prepare .env file
+      - name: Prepare .env file to be used by vercel build
         run: |
           touch .env
 
           echo DATABASE_URL=${{ steps.create-neon-branch.outputs.db_url_with_pooler }}?sslmode=require >> .env
-          echo DIRECT_URL=${{ steps.create-neon-branch.outputs.db_url }}?sslmode=require >> .env
 
       - name: Install Vercel CLI
         run: npm install --global vercel@33
@@ -57,7 +56,7 @@ jobs:
         run: echo preview_url=$(vercel deploy --prebuilt --token=${{ env.VERCEL_TOKEN }}) >> $GITHUB_OUTPUT
 
       - name: Set DATABASE_URL on Vercel Preview Deployment
-        run: vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }}
+        run: echo "${{ steps.create-neon-branch.outputs.db_url_with_pooler }}?sslmode=require" | vercel env add DATABASE_URL preview ${{ steps.branch-name.outputs.current_branch }} --token=${{ env.VERCEL_TOKEN }}
 
       - name: Comment on Pull Request
         uses: thollander/actions-comment-pull-request@v2
