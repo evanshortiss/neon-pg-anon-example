@@ -58,7 +58,10 @@ export default async function Home({
       </div>
       <EmployeeTable employees={employees}></EmployeeTable>
       <div className="fixed left-0 top-0 p-3 text-xs">
-        <pre className="dark:text-gray-500">Environment: {process.env.VERCEL_ENV ? process.env.VERCEL_ENV : 'local'}</pre>
+        <pre className="dark:text-gray-500">
+          Environment: {process.env.VERCEL_ENV ? process.env.VERCEL_ENV : 'local'}
+        </pre>
+
       </div>
     </main>
   )
