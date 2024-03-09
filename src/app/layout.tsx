@@ -17,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark:bg-[#18191b]">
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com"/>
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"/>
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}

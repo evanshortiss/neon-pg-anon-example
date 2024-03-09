@@ -9,7 +9,7 @@ a link added by GitHub Actions in Pull Request comments, e.g [this PR comment](h
 
 If you'd like to use this example yourself, you'll need to:
 
-1. Sign-up for an account on https://neon.tech to access your free Postgres database.
+1. [Sign-up for Neon](https://neon.tech/github) to access your free Postgres database.
 1. Fork this repository and set some secrets for GitHub Actions.
 1. Creaet a project in your Vercel account that uses your fork of this repository.
 
@@ -17,7 +17,7 @@ These steps are explained in detail provied below.
 
 ### Postgres Database Setup on Neon
 
-1. Create a project on [console.neon.tech](https://console.neon.tech/) to obtain a Postgres database.
+1. Login, and create a project on [Neon](https://neon.tech/github) to obtain a Postgres database.
 1. Follow the instructions in Neon's documentation to [import the Employees database](https://neon.tech/docs/import/import-sample-data#employees-database).
 1. Create a Neon database branch named `anonymized-main`, then run the commands in *anonymized.sql* against that branch.
 
